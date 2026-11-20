@@ -62,43 +62,6 @@ A **PowerPoint 365/2026-style** presentation and quiz editor built with **WPF (.
 
 ---
 
-## 🏗️ Architecture
-
-```
-dQuiz/
-├── App.xaml / App.xaml.cs           # App entry, theme initialization
-├── MainWindow.xaml / .cs            # Ribbon, canvas, thumbnails, format pane, status bar
-├── PresenterWindow.xaml / .cs       # Full-screen slideshow + Quiz HUD
-├── Models/
-│   ├── Presentation.cs              # Presentation, Slide, SlideElement, enums
-│   └── Quiz.cs                      # Legacy quiz model
-├── Services/
-│   ├── AppSettings.cs               # Persisted user preferences (%LocalAppData%\dQuiz\settings.json)
-│   ├── ThemeManager.cs              # Live Light/Dark/System + accent brushes
-│   ├── Themes.cs                    # 9 slide themes + SlideFactory (6 layouts)
-│   ├── PresentationService.cs       # Save/Load .dquiz, clone, import
-│   ├── RecentFilesService.cs        # Recent files (max 10)
-│   ├── LocalizationService.cs       # EN/FR/AR strings + RTL flow
-│   └── QuizDataService.cs           # Legacy service
-├── Rendering/
-│   ├── SlideRenderer.cs             # Model → WPF visuals (1280×720)
-│   └── Animator.cs                  # Entrance animations + slide transitions
-├── Controls/
-│   ├── SlideView.cs                 # Thumbnail live preview
-│   └── Converters.cs                # PlusOneConverter, BoolToVisibility
-├── Views/
-│   ├── BackstageView.xaml / .cs     # PowerPoint-style File backstage (Home, New, Open, Save, Export, Options)
-│   ├── SettingsView.xaml / .cs      # Windows 11 Settings UI (all 9 AppSettings)
-│   └── FluentDialog.xaml / .cs      # Fluent confirm/info dialogs
-├── Themes/
-│   ├── Light.xaml                   # Light palette + Win11 control templates
-│   ├── Dark.xaml                    # Dark palette
-│   └── Fluent.xaml                  # Shared styles (buttons, menus, inputs, scrollbars)
-└── tests/dQuiz.E2E/                 # 163 E2E tests + 20 DPI/Theme render checks
-```
-
----
-
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -106,65 +69,7 @@ dQuiz/
 - **.NET 8 SDK** ([download](https://dotnet.microsoft.com/download/dotnet/8.0))
 - Visual Studio 2022 + **Desktop development with C#** workload (or VS Code + C# Dev Kit)
 
-### Build & Run
-```powershell
-# Clone
-git clone https://github.com/<your-username>/dQuiz.git
-cd dQuiz
-
-# Kill any running instance (locks the exe)
-Stop-Process -Name dQuiz -Force -ErrorAction SilentlyContinue
-
-# Build
-dotnet build --nologo
-
-# Run
-dotnet run --project dQuiz.csproj
-```
-
-### Run E2E Tests (163 tests + 20 render captures)
-```powershell
-dotnet run --project tests\dQuiz.E2E\dQuiz.E2E.csproj --no-launch-profile
-```
-
 ---
-
-## 📁 Settings Location
-All preferences persist to:
-```
-%LocalAppData%\dQuiz\settings.json
-```
-
-Example:
-```json
-{
-  "Theme": "System",
-  "Accent": "Teal",
-  "Language": "en",
-  "UiFont": "Segoe UI",
-  "CanvasBackground": "Theme",
-  "SmartGuides": true,
-  "ShowNotes": false,
-  "UiAnimations": true,
-  "StartOnHome": true,
-  "ShowQuizHud": true
-}
-```
-
----
-
-## 🧪 Testing
-
-The project includes a **zero-NuGet STA test harness** (`tests/dQuiz.E2E/`) with 163 tests across 5 tiers:
-
-| Tier | Focus |
-|------|-------|
-| 1 | Theme switching, settings persistence, editor sharpness |
-| 2 | Boundary conditions (empty slides, max elements, etc.) |
-| 3 | Cross-feature (quiz + transitions + animations) |
-| 4 | Real-world scenarios (create → edit → present → export) |
-| 5 | Win32 maximize (rcWork), multi-DPI (100%/130%) RenderTargetBitmap captures |
-
 ---
 
 ## 🛣️ Roadmap (Post-M4)
@@ -177,14 +82,6 @@ The project includes a **zero-NuGet STA test harness** (`tests/dQuiz.E2E/`) with
 - [ ] **Plugin system** for custom element types
 
 ---
-
-## 🤝 Contributing
-
-1. Fork the repo
-2. Create a feature branch (`git checkout -b feat/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feat/amazing-feature`)
-5. Open a Pull Request
 
 **Code style**: Follow existing patterns — `DynamicResource` for theming, `UseLayoutRounding="False"` for text sharpness, Fluent UI control templates.
 
